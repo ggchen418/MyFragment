@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
 import com.android.example.myfragment.databinding.FragmentQuestionBinding
 
@@ -38,7 +39,6 @@ class QuestionFragment : Fragment() {
         )
     )
 
-
     private fun setQuestion() {
         currentQuestion = questions[questionIndex]
         answers = currentQuestion.answers.toMutableList()
@@ -51,8 +51,6 @@ class QuestionFragment : Fragment() {
         binding.optC.text = answers[2]
 
     }
-
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -86,8 +84,13 @@ class QuestionFragment : Fragment() {
                     setQuestion()
 
                 } else {
-                    Navigation.findNavController(it).navigate(R.id.action_questionFragment_to_thankYouFragment)
+
+                    val percentage : Float = (score / 2.0F) * 100
+
+                    val action : NavDirections = QuestionFragmentDirections.actionQuestionFragmentToThankYouFragment(percentage)
+                    Navigation.findNavController(it).navigate(action)
                 }
+
             }else{
                 Toast.makeText(context, "please select answer", Toast.LENGTH_LONG).show()
             }
